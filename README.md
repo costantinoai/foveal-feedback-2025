@@ -8,7 +8,7 @@ This repository contains the code and data for reproducing the results and figur
 
 ### Directory Structure
 
-'''
+```
 .
 ├── 1_models_mvpa.py          # MVPA classification
 ├── 2_fmri_mvpa.py            # Processes and saves MVPA analysis results on fMRI data
@@ -27,7 +27,7 @@ This repository contains the code and data for reproducing the results and figur
 ├── README.md                 # Project documentation
 ├── requirements.txt          # Python dependencies
 └── setup.sh                  # Automated setup script
-'''
+```
 
 ---
 
@@ -43,10 +43,10 @@ The `setup.sh` script automates the installation process (tested on Linux), incl
 
 To use the setup script, execute the following commands in a terminal:
 
-'''
+```
 chmod +x setup.sh
 ./setup.sh
-'''
+```
 
 This script handles the entire installation process. After running the script, you only need to download and set up the dataset (instructions below) before running the analyses.
 
@@ -58,28 +58,28 @@ If you prefer to perform the steps manually or are using a different operating s
 
 ### Step 1: Clone the Repository
 
-'''
+```
 git clone https://github.com/costantinoai/foveal-feedback-2025.git
 cd foveal-feedback-2025
-'''
+```
 
 ### Step 2: Set Up the Environment
 
 1. **Create and activate a Python environment**:
-   '''
+   ```
    conda create -n foveal-feedback python=3.8 -y
    conda activate foveal-feedback
-   '''
+   ```
 
 2. **Install Python dependencies**:
-   '''
+   ```
    pip install -r requirements.txt
-   '''
+   ```
 
 ### Step 3: Install External Dependencies (TDANN)
 
 1. **Clone and install TDANN**:
-   '''
+   ```
    mkdir -p external && cd external
    git clone https://github.com/neuroailab/TDANN.git TDANN-main
    cd TDANN-main
@@ -87,7 +87,7 @@ cd foveal-feedback-2025
    pip install -r requirements.txt
    pip install -e .
    cd ../../
-   '''
+   ```
 
 2. Ensure the TDANN framework is installed in the `external/TDANN-main/` directory, as required by the scripts.
 
@@ -98,10 +98,10 @@ IMPORTANT: TDANN has its own required dependenciec. Make sure you follow the cor
 1. **Download the dataset** from [OSF](https://osf.io/h95a2/).
 2. **Extract the dataset**:
    - For Linux/macOS:
-     '''
+     ```
      cat BIDS.zip.* > BIDS_combined.zip
      unzip BIDS_combined.zip -d ./data
-     '''
+     ```
    - For Windows:
      - Select all dataset parts (e.g., `BIDS.zip.001`, `BIDS.zip.002`, etc.).
      - Right-click and choose "Extract All".
@@ -115,16 +115,16 @@ IMPORTANT: TDANN has its own required dependenciec. Make sure you follow the cor
 
 After installation, verify the setup:
 
-'''
+```
 python -c "import torch; print('Torch version:', torch.__version__)"
 python -c "import spacetorch; print('Spacetorch installation successful')"
-'''
+```
 
 Activate your environment with:
 
-'''
+```
 conda activate foveal-feedback
-'''
+```
 
 ---
 

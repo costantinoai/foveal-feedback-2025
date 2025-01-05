@@ -14,9 +14,9 @@ sys.path.append(os.path.join(TDANN_PATH, "demo"))
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 # Global settings for publication-quality plots
-BASE_FONT_SIZE = 22  # Base font size for scaling (change this to scale all fonts)
+BASE_FONT_SIZE = 30  # Base font size for scaling (change this to scale all fonts)
 
-plt.rcParams["figure.figsize"] = (12, 10)  # Slightly larger figure size
+plt.rcParams["figure.figsize"] = (14, 10)  # Slightly larger figure size
 plt.rcParams["figure.dpi"] = 300  # High DPI for publication-ready images
 plt.rcParams["font.size"] = BASE_FONT_SIZE  # Base font size for text
 plt.rcParams["axes.titlesize"] = (

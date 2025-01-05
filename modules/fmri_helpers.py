@@ -544,7 +544,7 @@ def plot_behavioral_accuracy_boxplot(
     output_path=None,
 ):
     """Plot a boxplot of behavioral accuracy across sub-categories."""
-    fig, ax = plt.subplots(figsize=(10, 12))
+    fig, ax = plt.subplots(figsize=(8, 12))
     flierprops = dict(marker="o", markersize=10, linestyle="none", markerfacecolor="w")
     sns.boxplot(
         data=behavioral_data[subcat_order],

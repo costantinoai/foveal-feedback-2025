@@ -332,11 +332,12 @@ def visualize_projections(
         Displays a 2D scatter plot.
     """
 
-    # Perform MDS on the flattened activations
+    # Perform dimensionality reduction
     mds_proj = apply_dimensionality_reduction_np(
         activations_np.reshape(activations_np.shape[0], -1), n_components=2, method=method
     )
-    # Create a new dictionary structured like participant_activations, but storing 2D MDS coordinates
+
+    # Create a dictionary of 2D projections
     activations = {
         idx: {"category": class_labels[idx], "activation": mds_proj[idx]}
         for idx in range(len(class_labels))
@@ -348,7 +349,7 @@ def visualize_projections(
     full_title = f"{title} {method} projection"
     plt.title(full_title, pad=20)
 
-    # Plot each category with the specified color and alpha transparency
+    # Plot each category
     for category in labels:
         points = np.array(
             [v["activation"] for v in activations.values() if v["category"] == category]
@@ -362,20 +363,32 @@ def visualize_projections(
             s=100,  # Adjust this value to control the size of the points
         )
 
-    # Hide x and y axis labels and ticks for a cleaner plot
+    # Add axis labels
     plt.xlabel("Dimension 1")
     plt.ylabel("Dimension 2")
+
+    # Hide ticks for a cleaner look
     plt.xticks([])
     plt.yticks([])
 
-    # Display the legend
-    plt.legend(title="Sub-categories")
-    plt.tight_layout()
+    # Configure the legend
+    plt.legend(
+        title="Sub-categories",
+        loc="upper right",  # Ensure it is placed in the top-right corner
+        frameon=True,       # Add a frame around the legend
+        fontsize=10,        # Adjust legend font size
+        title_fontsize=12,  # Adjust legend title font size
+    )
 
+    # Adjust the layout to leave enough space for the legend
+    plt.tight_layout(rect=[0, 0, 0.9, 1])  # Reserve space for the legend inside the plot
+
+    # Save the figure
     filename = full_title.replace(" ", "_").lower() + ".png"
     filename = os.path.join(out_dir, filename) if out_dir is not None else filename
     plt.savefig(filename, dpi=300, bbox_inches="tight")
 
+    # Show the plot
     plt.show()
 
 

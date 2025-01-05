@@ -1,7 +1,7 @@
 .spyproject
 extra
 .Rhistory
-external
+external/
 !external/TDANN-main/INSTALL.md
 
 # Byte-compiled / optimized / DLL files

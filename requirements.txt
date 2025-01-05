@@ -1,0 +1,17 @@
+numpy
+pandas
+Pillow
+scikit-learn
+scipy
+seaborn
+statsmodels
+torch
+torchvision
+nibabel
+nilearn
+matplotlib
+natsort
+classy_vision @ https://github.com/facebookresearch/ClassyVision/tarball/4785d5ee19d3bcedd5b28c1eb51ea1f59188b54d#sha256=da2cca3d47a053a98c799062920a715c1cbdfe3e08f3b9d677e1df8c3ea74a33
+clip @ git+https://github.com/openai/CLIP.git@dcba3cb2e2827b402d2701e7e1c7d9fed8a20ef1
+-e git+https://github.com/dicarlolab/vonenet.git@main#egg=vonenet
+-e git+https://github.com/neuroailab/TDANN.git@main#egg=spacetorch

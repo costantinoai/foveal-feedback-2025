@@ -617,6 +617,7 @@ def report_mvpa_results(
         title=title,
         hue_order=hue_order,
         x_groups_order=x_groups_order,
+        out_dir=outroot
     )
 
     # Generate reports

@@ -1,7 +1,12 @@
-.spyproject
-extra
+# Ignore Spyder project files
+.spyproject/
+
+# Ignore additional files and directories
+extra/
 .Rhistory
-external/
+
+# Ignore the external directory but track specific files
+external/*
 !external/TDANN-main/INSTALL.md
 
 # Byte-compiled / optimized / DLL files

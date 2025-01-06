@@ -21,9 +21,9 @@ This repository contains the code and data for reproducing the results and figur
 │   ├── behavioural_acc.csv   # Behavioral accuracy data
 │   ├── 2024-04-16_122451_bike-car-female-male.pkl # Human MVPA results
 ├── external/                 # External dependencies (e.g., TDANN)
+│   ├── TDANN-main/              # Store here the TDANN cloned repo               
 ├── modules/                  # Helper modules
 ├── results/                  # Generated figures and results
-├── extra/                    # Additional scripts and utilities
 ├── README.md                 # Project documentation
 ├── requirements.txt          # Python dependencies
 └── setup.sh                  # Automated setup script

@@ -376,8 +376,8 @@ def visualize_projections(
         title="Sub-categories",
         loc="upper right",  # Ensure it is placed in the top-right corner
         frameon=True,       # Add a frame around the legend
-        fontsize=10,        # Adjust legend font size
-        title_fontsize=12,  # Adjust legend title font size
+        fontsize=12,        # Adjust legend font size
+        title_fontsize=14,  # Adjust legend title font size
     )
 
     # Adjust the layout to leave enough space for the legend

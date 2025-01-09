@@ -94,7 +94,8 @@ def annotate_bar(stats_result, line_center, _ax):
         else "**" if p_value < 0.01 else "*" if p_value < 0.05 else None
     )
     if significance:
-        _ax.text(line_x, ci_up + 0.01, significance, ha="center")
+        top = ci_up + 0.01 if ci_up < 1.01 else 1.01
+        _ax.text(line_x, top, significance, ha="center")
 
 
 def plot_mvpa_barplot(
@@ -107,6 +108,7 @@ def plot_mvpa_barplot(
     hue_order=None,
     x_groups_order=None,
     out_dir=None,
+    plot_points=False
 ):
     """
     Plot MVPA bar plot with statistical annotations.
@@ -214,8 +216,9 @@ def plot_mvpa_barplot(
         return bar_tuples
 
     # Determine figure size dynamically based on the number of x_groups
-    figsizex = 3 * (len(x_groups_order) if x_groups else len(hue_order)) + 1
+    figsizex = len(hue_order) * len(x_groups_order) if x_groups is not None else 10
     fig, ax = plt.subplots(figsize=(figsizex, 12))
+
 
     # Plot the bars with seaborn
     x_group_col = x_groups if x_groups else x_hue
@@ -227,11 +230,13 @@ def plot_mvpa_barplot(
         hue=x_hue,
         palette=COLOR_MAPPING,
         errorbar=("ci", 95),
-        err_kws={"linewidth": 1},
-        capsize=0.1,
+        err_kws={"linewidth": 2},
+        capsize=0.2,
         ax=ax,
         order=x_groups_order,
         hue_order=hue_order,
+        alpha=.2 if plot_points else .9,
+        zorder=1
     )
 
     # Get coordinates for bars and error bars
@@ -246,6 +251,24 @@ def plot_mvpa_barplot(
         if x_groups_order != hue_order
         else [(h, h) for h in hue_order]
     )
+
+    if plot_points:
+        # Add individual data points
+        sns.stripplot(
+            data=data,
+            x=x_group_col,
+            y=y_col,
+            hue=x_hue,
+            dodge=True if x_groups else False,  # Aligns points based on hue
+            palette=COLOR_MAPPING,
+            order=x_groups_order,
+            hue_order=hue_order,
+            alpha=0.5,  # Make points slightly transparent
+            ax=ax,
+            jitter=True,  # Adds some random noise to spread the points
+            size=15,
+            zorder=-1
+        )
 
     if x_group_col is None:
         x_group_col = x_hue
@@ -279,12 +302,23 @@ def plot_mvpa_barplot(
         # Store results
         stats_results.append(stats_result_group)
 
+
+    if plot_points:
+        # Avoid duplicate legend entries
+        handles, labels = ax.get_legend_handles_labels()
+        ax.legend(handles[:len(hue_order)], labels[:len(hue_order)])
+
     # Add chance level reference line
     ax.axhline(chance_level, color="black", linestyle="--", linewidth=1)
     ax.set_ylabel("Accuracy")
     ax.set_xlabel(x_groups if x_groups else x_hue)
     ax.set_title(title, pad=30)
     ax.set_ylim(0.0, 1.1)
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=30, ha="right")
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.spines["left"].set_linewidth(0.5)
+    ax.spines["bottom"].set_linewidth(0.5)
 
     # Show the plot
     plt.tight_layout()
@@ -461,19 +495,21 @@ def save_and_plot_confusion_matrix(
 
     # Set titles and labels
     ax.set_title(title, pad=20)
-    ax.set_xlabel("Predicted Label")
-    ax.set_ylabel("True Label")
+    ax.set_xlabel("Predicted Label", labelpad=15)  # Explicitly label predicted axis
+    ax.set_ylabel("True Label", labelpad=15)      # Explicitly label true axis
     ax.set_xticklabels(group_labels, rotation=30, ha="right")
     ax.set_yticklabels(group_labels, rotation=30)
 
     # Save the confusion matrix data to a CSV file
-    if output_dir:
+    if output_dir is not None:
         csv_filename = os.path.join(output_dir, f"confusion_matrix_{title}.csv")
         cm_df = pd.DataFrame(cm_normalized, index=group_labels, columns=group_labels)
         cm_df.to_csv(csv_filename)
+        plt.savefig(f"{output_dir}/{title.lower()}.png")
         print(f"Confusion matrix data saved to: {csv_filename}")
 
     return cm_normalized
+
 
 
 def create_run_id():
@@ -585,7 +621,7 @@ def report_mvpa_results(
             true_col: "True Labels",
             pred_col: "Predicted Labels",
             subject_col: "Subject",
-            x_groups: "Group" if x_groups else None,
+            x_groups: x_groups if x_groups is not None else None,
             accuracy_col: "Accuracy" if accuracy_col in data.columns else None,
         }
     )
@@ -597,7 +633,7 @@ def report_mvpa_results(
     # Group the data appropriately based on input
     group_cols = ["Subject", "True Labels"]
     if x_groups:
-        group_cols.append("Group")
+        group_cols.append(x_groups)
 
     grouped_data = data.groupby(group_cols).mean(numeric_only=True).reset_index()
 
@@ -612,12 +648,12 @@ def report_mvpa_results(
         data=grouped_data,
         x_hue="True Labels",
         y_col="Accuracy",
-        x_groups="Group" if x_groups else None,
+        x_groups=x_groups if x_groups else None,
         chance_level=chance_level,
         title=title,
         hue_order=hue_order,
         x_groups_order=x_groups_order,
-        out_dir=outroot
+        out_dir=outroot,
     )
 
     # Generate reports

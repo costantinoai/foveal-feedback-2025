@@ -575,6 +575,52 @@ def plot_behavioral_accuracy_boxplot(
         )
     plt.show()
 
+def plot_behavioral_accuracy_barplot(
+    behavioral_data,
+    subcat_order,
+    overall_mean,
+    title="Behavioral Accuracy Across Categories",
+    color_mapping=COLOR_MAPPING,
+    output_path=None,
+):
+    """Plot a boxplot of behavioral accuracy across sub-categories."""
+
+    # Determine figure size dynamically based on the number of x_groups
+    fig, ax = plt.subplots(figsize=(10, 12))
+
+    sns.barplot(
+        data=behavioral_data[subcat_order],
+        palette=color_mapping,
+        ax=ax,
+        errorbar=("ci", 95),
+        err_kws={"linewidth": 2},
+        capsize=0.2,
+        alpha=.9,
+    )
+
+    # Customize plot aesthetics
+    ax.set_ylabel("Accuracy")
+    ax.set_xlabel("True Label")
+    ax.set_title("Behavioral Accuracy Across Categories", pad=20)
+    ax.axhline(overall_mean, color="black", linestyle="--", label="Overall Mean")
+    ax.legend()
+
+    ax.set_title(title, pad=30)
+    ax.set_ylim(0.0, 1.1)
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=30, ha="right")
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.spines["left"].set_linewidth(0.5)
+    ax.spines["bottom"].set_linewidth(0.5)
+
+    # Save and show plot
+    plt.tight_layout()
+    if output_path:
+        plt.savefig(
+            os.path.join(output_path, title + ".png"), dpi=300, bbox_inches="tight"
+        )
+    plt.show()
+
 
 def compute_confusion_matrices(filtered_data, rois, subcat_order):
     """

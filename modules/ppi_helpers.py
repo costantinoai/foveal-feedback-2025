@@ -25,7 +25,7 @@ def load_roi_images(subject_id, roi_directory):
         "opp": glob.glob(os.path.join(roi_directory, f"sub-{subject_id}", "*label-OPP_roi.nii"))[0],
         "ffa": glob.glob(os.path.join(roi_directory, f"sub-{subject_id}", "*label-FFA_roi.nii"))[0],
         "loc": glob.glob(os.path.join(roi_directory, f"sub-{subject_id}", "*label-LOC_roi.nii"))[0],
-        "a1": glob.glob(os.path.join(roi_directory, f"sub-{subject_id}", '*label-A1_roi.nii'))[0]
+        # "a1": glob.glob(os.path.join(roi_directory, f"sub-{subject_id}", '*label-A1_roi.nii'))[0]
         }
 
     for roi_name, path in roi_paths.items():

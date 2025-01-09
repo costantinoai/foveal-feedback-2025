@@ -19,18 +19,17 @@ BASE_FONT_SIZE = 30  # Base font size for scaling (change this to scale all font
 plt.rcParams["figure.figsize"] = (14, 10)  # Slightly larger figure size
 plt.rcParams["figure.dpi"] = 300  # High DPI for publication-ready images
 plt.rcParams["font.size"] = BASE_FONT_SIZE  # Base font size for text
-plt.rcParams["axes.titlesize"] = (
-    BASE_FONT_SIZE * 1.2
-)  # Title font size (larger for emphasis)
+plt.rcParams["axes.titlesize"] = BASE_FONT_SIZE * 1.2  # Title font size (larger for emphasis)
 plt.rcParams["axes.labelsize"] = BASE_FONT_SIZE  # Axis label font size
 plt.rcParams["xtick.labelsize"] = BASE_FONT_SIZE * 0.9  # X-axis tick font size
 plt.rcParams["ytick.labelsize"] = BASE_FONT_SIZE * 0.9  # Y-axis tick font size
-plt.rcParams["legend.fontsize"] = BASE_FONT_SIZE * 0.9  # Legend font size
-plt.rcParams["legend.title_fontsize"] = BASE_FONT_SIZE  # Legend title font size
+plt.rcParams["legend.fontsize"] = BASE_FONT_SIZE * 0.7  # Legend font size (slightly smaller)
+plt.rcParams["legend.title_fontsize"] = BASE_FONT_SIZE * 0.7  # Legend title font size
+plt.rcParams["legend.frameon"] = False  # Make legend borderless
+plt.rcParams["legend.loc"] = "upper right"  # Legend in the top-right corner
 plt.rcParams["savefig.bbox"] = "tight"  # Ensure plots save tightly cropped
 plt.rcParams["savefig.pad_inches"] = 0.1  # Add small padding around saved plots
 plt.rcParams["savefig.format"] = "png"  # Default save format
-
 
 # Mapping integers to categories
 LETTER2INT_MAPPING = {

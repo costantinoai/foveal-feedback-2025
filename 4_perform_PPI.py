@@ -1,11 +1,9 @@
 import glob
-import inspect
-import shutil
 import numpy as np
 import pandas as pd
 import os
 import concurrent.futures
-from modules.utils import create_run_id
+from modules.utils import create_run_id, save_script_to_file
 from modules.ppi_helpers import (
     load_roi_images,
     load_functional_images,
@@ -14,27 +12,6 @@ from modules.ppi_helpers import (
     apply_pca_and_extract_signal
     )
 
-def save_script_to_file(output_directory):
-    """
-    Save the calling script to a specified output directory.
-
-    This function obtains the filename of the script that directly calls this function
-    (i.e., the "caller frame") and copies that script to a target directory, providing
-    reproducibility by capturing the exact code used in the analysis.
-
-    Parameters
-    ----------
-    output_directory : str
-        Path to the directory where the script file will be copied.
-
-    Returns
-    -------
-    None
-    """
-    caller_frame = inspect.stack()[1]  # Stack frame of the caller
-    script_file = caller_frame.filename
-    script_file_out = os.path.join(output_directory, os.path.basename(script_file))
-    shutil.copy(script_file, script_file_out)
 
 def process_run(subject_id, run_number, root_directory, roi_directory, func_directory, roi_masks):
     """
